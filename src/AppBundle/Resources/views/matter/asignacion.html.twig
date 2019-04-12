@@ -1,0 +1,53 @@
+{% extends '@App/template.html.twig' %}
+
+
+{% block titulo %}
+
+{% endblock %}
+
+{% block body %}
+    <section>
+        <div class="portlet-body flip-scroll">
+            <table class="table table-bordered table-striped table-condensed flip-content">
+                <thead class="thead-dark flip-content">
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Nombre</th>
+            <th scope="col">Código</th>
+            <th scope="col">Horas Semanales</th>
+            <th scope="col">Horas Totales</th>
+            <th scope="col">Acciones</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for m in materias %}
+            <tr>
+                <td>{{ m.id }}</td>
+                <td>{{ m.nombre }}</td>
+                <td>{{ m.codigo }}</td>
+                <td>{{ m.horasSemanales }}</td>
+                <td>{{ m.horasTotales }}</td>
+                <td><a class="btn btn-info btn-xs" href="{{ path('profileMatter', {'id': m.id}) }}">Mas Info</a></td>
+
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+        </div>
+    </section>
+{% endblock %}
+{% block stylesheets %}
+    <style>
+        section{
+            margin: auto;
+            margin-top: 2em;
+            width: 80%;
+        }
+        @media
+        only screen and (max-width: 992px){
+            section{
+                width: 100%;
+            }
+        }
+    </style>
+{% endblock %}

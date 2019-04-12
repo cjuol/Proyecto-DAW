@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8"/>
+    <title>I.E.S. Oretania</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="{{ asset('assets/global/plugins/bootstrap/css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/global/plugins/toastr/toastr.min.css') }}">
+    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}"/>
+<body>
+<div class="container">
+    <p>Bienvenido a nuestra aplicación {{ user.nombre }}</p>
+    <p>Para acceder a la aplicación se le facilitan un enlace donde podra seleccionar la contraseña</p>
+    <p>Usuario: {{ user.correo }}</p>
+    <p>Enlace: {{ host }}{{ path('resetPass', {'hash': hash}) }}</p>
+    <p>J.odt</p>
+</div>
+<script src="{{ asset('assets/global/plugins/jquery.min.js') }}"></script>
+<script src="{{ asset('assets/global/plugins/bootstrap/js/bootstrap.min.js') }}"></script>
+<script src="https://use.fontawesome.com/e6820f0e80.js"></script>
+
+
+</body>
+</html>

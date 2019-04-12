@@ -1,0 +1,44 @@
+{% extends '@App/template.html.twig' %}
+
+
+{% block titulo %}{% endblock %}
+
+{% block body %}
+
+    <div class="row">
+        <div class="col-md-12">
+            {{ form_start(form) }}
+            <div style="display: none;">
+                {{ form_errors(form.nombre) }}
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group form-md-line-input">
+                        {{ form_label(form.nombre) }}
+                        {{ form_widget(form.nombre) }}
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <input type="submit" class="btn btn-success">
+                </div>
+            </div>
+            {{ form_end(form) }}
+
+        </div>
+    </div>
+
+{% endblock %}
+{% block javascripts %}
+{% endblock %}
+{% block stylesheets %}
+    <style>
+        main{
+            width: 30%;
+            margin: auto;
+            margin-top: 2em;
+        }
+
+    </style>
+{% endblock %}

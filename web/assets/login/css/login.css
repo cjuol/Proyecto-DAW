@@ -1,0 +1,53 @@
+@import url('https://fonts.googleapis.com/css?family=Ubuntu');
+body{
+    display: flex;
+    /*background-image: url("./../img/fondo.jpeg");*/
+    background-color: #5cb85c;
+    background-size: auto;
+    background-repeat: no-repeat;
+    padding-top: 130px;
+}
+
+.form-group{
+    font-family: 'Ubuntu', sans-serif;
+
+}
+.form-control{
+    padding: 6px 12px;
+    font-size: 14px;
+    height: 35px;
+    color: #8290a3;
+    font-family: 'Ubuntu', sans-serif;
+    border: 1px solid #dde3ec;
+    background-color: #dde3ec;
+}
+.form-signin{
+    max-width: 330px;
+    padding: 15px;
+    margin: 0 auto;
+    background-color: rgba(0, 0, 0, 0.3);
+    box-shadow: 3px 3px 3px #333333;
+
+}
+
+label {
+    color: #ffffff;
+}
+#logo > img{
+    width: 200px;
+}
+
+@media (min-width: 768px) and (max-width: 1024px) {
+    body {
+        padding-top: 2em;
+        background-size: auto;
+    }
+}
+
+@media (max-width: 768px) {
+    body {
+        padding-top: 2em;
+        background-size: auto;
+
+    }
+}

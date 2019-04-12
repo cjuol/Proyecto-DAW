@@ -1,0 +1,331 @@
+{% extends '@App/template.html.twig' %}
+
+
+{% block titulo %}Perfil: {{ usuario }}{% endblock %}
+
+{% block body %}
+    <div class="tabbable-line">
+        <ul class="nav nav-tabs">
+            <li class="active">
+                <a href="#tab_1_1" data-toggle="tab"> Información </a>
+            </li>
+            <li>
+                <a href="#tab_1_3" data-toggle="tab">Materias</a>
+            </li>
+            <li>
+                <a href="#tab_1_4" data-toggle="tab">Exención</a>
+            </li>
+            {% if is_granted('ROLE_DEPARTMENT') or app.user ==usuario %}
+            <li>
+                <a href="#tab_1_2" data-toggle="tab"> Gestión </a>
+            </li>
+            {% endif %}
+            {% if app.user != usuario and is_granted("ROLE_DEPARTMENT") %}
+                <li>
+                    <a class="del" href="#modalDelete" data-toggle="modal"> Eliminar </a>
+                </li>
+            {% endif %}
+
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane fade active in" id="tab_1_1">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group form-md-line-input">
+                            <span>Nombre:</span>
+                            <span class="form-control">{{ usuario.nombre }}</span>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group form-md-line-input">
+                            <span>Apellidos: </span>
+                            <span class="form-control">{{ usuario.apellidos }}</span>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group form-md-line-input">
+                            <span>Email:</span>
+                            <span class="form-control">{{ usuario.correo }}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group form-md-line-input">
+                            <span>Departamento:</span>
+                            <span class="form-control">{{ usuario.departamento }}</span>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group form-md-line-input">
+                            <span>Prioridad:</span>
+                            <span class="form-control">{{ usuario.prioridad }}</span>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group form-md-line-input">
+                            <span>Role:</span>
+                            <span class="form-control">
+                                {% if usuario.rol == 'Admin' %}
+                                    Jefe de Estudios
+                                {% elseif usuario.rol == 'Departamento' %}
+                                    Jede de Departamento
+                                {% else %}
+                                    Usuario
+                                {% endif %}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                {% if is_granted('ROLE_DEPARTMENT') or app.user ==usuario %}
+            </div>
+            <div class="tab-pane fade" id="tab_1_2">
+                <div style="display: none;">
+                    {{ form_start(form) }}
+                    {{ form_errors(form.correo) }}
+                    {{ form_errors(form.nombre) }}
+                    {{ form_errors(form.apellidos) }}
+                    {% if is_granted('ROLE_DEPARTMENT') %}
+                        {{ form_errors(form.rol) }}
+                        {{ form_errors(form.prioridad) }}
+                        {{ form_errors(form.departamento) }}
+                   {% endif %}
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group form-md-line-input">
+                            {{ form_label(form.nombre) }}
+                            {{ form_widget(form.nombre) }}
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group form-md-line-input">
+                            {{ form_label(form.apellidos) }}
+                            {{ form_widget(form.apellidos) }}
+
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group form-md-line-input">
+                            {{ form_label(form.correo) }}
+                            {{ form_widget(form.correo) }}
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        {% if is_granted('ROLE_DEPARTMENT') %}
+                            <div class="form-group form-md-line-input">
+                                {{ form_label(form.departamento) }}
+                                {{ form_widget(form.departamento) }}
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="row">
+                    {% if is_granted('ROLE_DEPARTMENT') %}
+                        <div class="col-md-4">
+                            <div class="form-group form-md-line-input">
+                                {{ form_label(form.prioridad) }}
+                                {{ form_widget(form.prioridad) }}
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group form-md-line-input">
+                                {{ form_label(form.rol) }}
+                                {{ form_widget(form.rol) }}
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <button type="submit" class="btn btn-success">
+                            Guardar
+                        </button>
+                    </div>
+                </div>
+                {{ form_end(form) }}
+
+                {% if app.user == usuario %}
+                        <a href="#modalPass" style="margin-top: 1em;" class="btn btn-warning" data-toggle="modal">Cambiar contraseña</a>
+                {% endif %}
+                {% endif %}
+            </div>
+            <div class="tab-pane fade" id="tab_1_3">
+                <div class="row">
+                    <div class="portlet-body flip-scroll">
+                        <table class="table table-bordered table-striped table-condensed flip-content">
+                            <thead class="thead-dark flip-content">
+                        <tr>
+                            <th scope="col">Prioridad</th>
+                            <th scope="col">Código</th>
+                            <th scope="col">Curso</th>
+                            <th scope="col">Nombre</th>
+                            <th scope="col">Horas Semanales</th>
+                            <th scope="col">Horas Totales</th>
+                            <th scope="col">Acciones</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for m in usuario.UsuarioMateria %}
+                            <tr>
+                                <td>{{ m.turno }}</td>
+                                <td>{{ m.materia.codigo }}</td>
+                                <td>{{ m.materia.curso }}</td>
+                                <td>{{ m.materia.nombre }}</td>
+                                <td>{{ m.materia.horasSemanales }}</td>
+                                <td>{{ m.materia.horasTotales }}</td>
+                                <td>
+                                    <a class="btn btn-info btn-xs" href="{{ path('profileMatter', {'id': m.materia.id}) }}">Mas Info</a>
+                                    {% if ((is_granted('ROLE_DEPARTMENT')) or (app.user.id == usuario.id)) %}
+                                        <a class="btn btn-danger btn-xs"
+                                           href="{{ path('desSelectUsuario_Materia', {'materia': m.materia.id,'usuario': usuario.id}) }}">
+                                            Eliminar
+                                        </a>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% else %}
+                            <tr>
+                                <td colspan="7">No dispone de ninguna materia asignada</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="tab_1_4">
+                <div class="row">
+                    <div class="portlet-body flip-scroll">
+                        <table class="table table-bordered table-striped table-condensed flip-content">
+                            <thead class="thead-dark flip-content">
+                        <tr>
+                            <th scope="col">Código</th>
+                            <th scope="col">Nombre</th>
+                            <th scope="col">Horas Semanales</th>
+                            <th scope="col">Horas Totales</th>
+                            <th scope="col">Acciones</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for m in usuario.exencion %}
+                            <tr>
+                                <td>{{ m.codigo }}</td>
+                                <td>{{ m.nombre }}</td>
+                                <td>{{ m.horasSemanales }}</td>
+                                <td>{{ m.horasTotales }}</td>
+                                <td>
+                                    <a class="btn btn-info btn-xs" href="{{ path('profileExencion', {'id': m.id}) }}">
+                                        Mas Info
+                                    </a>
+                                    {% if ((is_granted('ROLE_DEPARTMENT')) or (app.user.id == usuario.id)) %}
+                                        <a class="btn btn-danger btn-xs"
+                                           href="{{ path('desSelectExencion', {'exencion': m.id,'usuario': usuario.id}) }}">
+                                            Eliminar
+                                        </a>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% else %}
+                            <tr>
+                                <td colspan="6">No dispone de ninguna exencion asignada</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                    </div>
+                </div>
+            </div>
+            {% if is_granted('ROLE_DEPARTMENT') %}
+            <div class="modal fade" id="modalDelete" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Eliminar usuario: {{ usuario }}</h5>
+                        </div>
+                        <div class="modal-body">
+                            {% if usuario.rol == 'Admin' %}
+                                <p>Este usuario es el jefe de estudios.</p>
+                            {% elseif usuario.rol == 'Departamento' %}
+                                <p>Este usuario es administrador del departamento: {{ usuario.departamento }}.</p>
+                            {% else %}
+                                <p>Se dispone a eliminar un usuario del departamento {{ usuario.departamento }}</p>
+                            {% endif %}
+                            <p>Esta acción no podra deshacerse, asegurese de que desea realizar estos cambios</p>
+
+
+                        </div>
+                        <div class="modal-footer">
+                            <form action="{{ path('deleteUser', {'id': usuario.id}) }}" method="post">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                                <button type="submit" class="btn btn-danger">Eliminar</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+            {% if app.user == usuario %}
+            <div class="modal fade" id="modalPass" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Cambiar contraseña usuario: {{ usuario }}</h5>
+                        </div>
+                        {{ form_start(passForm) }}
+                        <div style="display: none;">
+                            {{ form_errors(passForm.oldPassword) }}
+                            {{ form_errors(passForm.newPassword) }}
+                        </div>
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <div class="form-group form-md-line-input">
+                                        {{ form_label(passForm.oldPassword) }}
+                                        {{ form_widget(passForm.oldPassword) }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <div class="form-group form-md-line-input">
+                                        {{ form_label(passForm.newPassword) }}
+                                        {{ form_widget(passForm.newPassword) }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                            <button type="submit" formmethod="post" class="btn btn-primary">Guardar
+                                cambios
+                            </button>
+                        </div>
+                        {{ form_end(passForm) }}
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+        {% if app.user == usuario %}
+            <small>*Se ha desactivado la opción de eliminar usuario, no puede eliminarse a sí mismo</small>
+        {% endif %}
+    </div>
+
+{% endblock %}
+{% block javascripts %}
+
+{% endblock %}
+{% block stylesheets %}
+    <style>
+        .del{
+            text-decoration: none;
+            color: #D91E18;
+        }
+        .del:hover{
+            color: #D91E18;
+        }
+    </style>
+{% endblock %}

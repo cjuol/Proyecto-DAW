@@ -1,0 +1,126 @@
+{% extends '@App/template.html.twig' %}
+
+
+{% block titulo %}Detalle:{{ materia }} {% endblock %}
+
+{% block body %}
+    <div class="tabbable-line">
+        <ul class="nav nav-tabs">
+            <li class="active">
+                <a href="#tab_1_1" data-toggle="tab"> Información </a>
+            </li>
+            {% if is_granted('ROLE_ADMIN') %}
+            <li>
+                <a href="#tab_1_2" data-toggle="tab"> Gestión </a>
+            </li>
+            <li>
+                <a class="del" href="#modal" data-toggle="modal"> Eliminar </a>
+            </li>
+            {% endif %}
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane fade active in" id="tab_1_1">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group form-md-line-input">
+                            <span>Código: </span>
+                            <span class="form-control">{{ materia.codigo }}</span>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group form-md-line-input">
+                            <span>Nombre:</span>
+                            <span class="form-control">{{ materia.nombre }}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group form-md-line-input">
+                            <span>Horas Semanales:</span>
+                            <span class="form-control">{{ materia.horasSemanales }}</span>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <span>Horas Totales:</span>
+                        <div class="form-group form-md-line-input">
+                            <span class="form-control">{{ materia.horasTotales }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% if is_granted('ROLE_DEPARTMENT') %}
+            <div class="tab-pane fade" id="tab_1_2">
+                {{ form_start(form) }}
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group form-md-line-input">
+                            {{ form_row(form.codigo) }}
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group form-md-line-input">
+                            {{ form_row(form.nombre) }}
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group form-md-line-input">
+                            {{ form_row(form.horasSemanales) }}
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group form-md-line-input">
+                            {{ form_row(form.horasTotales) }}
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <button type="submit" class="btn btn-success">
+                            Guardar
+                        </button>
+                    </div>
+                </div>
+                {{ form_end(form) }}
+            </div>
+            <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                 aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Eliminar exencion: {{ materia }}</h5>
+                        </div>
+                        <div class="modal-body">
+                            Esta accion no podra deshacerse.
+                        </div>
+                        <div class="modal-footer">
+                            <form action="{{ path('deleteExencion', {'id': materia.id}) }}" method="post">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                                <button type="submit" class="btn btn-danger">Eliminar</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+        </div>
+    </div>
+
+{% endblock %}
+{% block javascripts %}
+
+{% endblock %}
+{% block stylesheets %}
+    <style>
+        .del {
+            text-decoration: none;
+            color: #D91E18;
+        }
+
+        .del:hover {
+            color: #D91E18;
+        }
+    </style>
+{% endblock %}

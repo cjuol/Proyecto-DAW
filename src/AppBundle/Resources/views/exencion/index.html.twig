@@ -1,0 +1,57 @@
+{% extends '@App/template.html.twig' %}
+
+
+{% block titulo %}
+
+{% endblock %}
+
+{% block body %}
+    <section>
+        {% if is_granted('ROLE_ADMIN') %}
+            <a class="btn btn-info" href="{{ path('newExecion') }}">Nueva Exencion</a>
+        {% endif %}
+        <div class="portlet-body flip-scroll">
+            <table class="table table-bordered table-striped table-condensed flip-content">
+                <thead class="thead-dark flip-content">
+            <tr>
+                <th scope="col">Nombre</th>
+                <th scope="col">Código</th>
+                <th scope="col">Horas Semanales</th>
+                <th scope="col">Horas Totales</th>
+                <th scope="col">Acciones</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for m in exenciones %}
+                <tr>
+                    <td>{{ m.nombre }}</td>
+                    <td>{{ m.codigo }}</td>
+                    <td>{{ m.horasSemanales }}</td>
+                    <td>{{ m.horasTotales }}</td>
+
+                    <td><a class="btn btn-xs btn-info" href="{{ path('profileExencion', {'id': m.id}) }}">Editar</a>
+                    </td>
+
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        </div>
+    </section>
+
+{% endblock %}
+{% block stylesheets %}
+    <style>
+        section {
+            margin: auto;
+            margin-top: 2em;
+            width: 80%;
+        }
+
+        @media only screen and (max-width: 992px) {
+            section {
+                width: 100%;
+            }
+        }
+    </style>
+{% endblock %}

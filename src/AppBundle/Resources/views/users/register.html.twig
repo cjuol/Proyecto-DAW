@@ -1,0 +1,96 @@
+{% extends '@App/template.html.twig' %}
+
+
+{% block titulo %}{% endblock %}
+
+{% block body %}
+    <section class="tabbable-line">
+        <ul class="nav nav-tabs">
+            <li>
+                <a href="{{ path('listUsers') }}"> Usuarios</a>
+            </li>
+            <li class="active">
+                <a href="{{ path('newUser') }}">Nuevo Usuario</a>
+            </li>
+        </ul>
+        <div class="row">
+            <div class="col-md-12">
+                {{ form_start(form) }}
+                <div style="display: none;">
+                    {{ form_errors(form.correo) }}
+                    {{ form_errors(form.nombre) }}
+                    {{ form_errors(form.apellidos) }}
+                    {{ form_errors(form.rol) }}
+                    {{ form_errors(form.prioridad) }}
+                    {% if app.user.rol.nombre == 'Admin' %}
+                        {{ form_errors(form.departamento) }}
+                    {% endif %}
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group form-md-line-input">
+                            {{ form_label(form.correo) }}
+                            {{ form_widget(form.correo) }}
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group form-md-line-input">
+                            {{ form_label(form.nombre) }}
+                            {{ form_widget(form.nombre) }}
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group form-md-line-input">
+                            {{ form_label(form.apellidos) }}
+                            {{ form_widget(form.apellidos) }}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    {% if app.user.rol.nombre == 'Admin' %}
+                        <div class="col-md-4">
+                            <div class="form-group form-md-line-input">
+                                {{ form_label(form.departamento) }}
+                                {{ form_widget(form.departamento) }}
+                            </div>
+                        </div>
+                    {% endif %}
+                    <div class="col-md-4">
+                        <div class="form-group form-md-line-input">
+                            {{ form_label(form.rol) }}
+                            {{ form_widget(form.rol) }}
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group form-md-line-input">
+                            {{ form_label(form.prioridad) }}
+                            {{ form_widget(form.prioridad) }}
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <input type="submit" class="btn btn-success">
+                    </div>
+                </div>
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </section>
+{% endblock %}
+
+{% block stylesheets %}
+    <style>
+        main{
+            width: 30%;
+            margin: auto;
+            margin-top: 2em;
+        }
+        .row{
+            padding: 0.25em;
+        }
+    </style>
+{% endblock %}

@@ -1,0 +1,130 @@
+{% extends '@App/template.html.twig' %}
+
+
+{% block titulo %}Perfil: {{ usuario }}{% endblock %}
+
+{% block body %}
+    <div class="tabbable-line">
+        <ul class="nav nav-tabs">
+            <li class="active">
+                <a href="#tab_1_1" data-toggle="tab"> Información </a>
+            </li>
+            <li>
+                <a href="#tab_1_3" data-toggle="tab">Materias</a>
+            </li>
+            <li>
+                <a href="#tab_1_4" data-toggle="tab">Exención</a>
+            </li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane fade active in" id="tab_1_1">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group form-md-line-input">
+                            <span>Nombre:</span>
+                            <span class="form-control">{{ usuario.nombre }}</span>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group form-md-line-input">
+                            <span>Apellidos: </span>
+                            <span class="form-control">{{ usuario.apellidos }}</span>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group form-md-line-input">
+                            <span>Email:</span>
+                            <span class="form-control">{{ usuario.correo }}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group form-md-line-input">
+                            <span>Departamento:</span>
+                            <span class="form-control">{{ usuario.departamento }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="tab_1_3">
+                <div class="row">
+                    <div class="portlet-body flip-scroll">
+                        <table class="table table-bordered table-striped table-condensed flip-content">
+                            <thead class="thead-dark flip-content">
+                        <tr>
+                            <th scope="col">Código</th>
+                            <th scope="col">Curso</th>
+                            <th scope="col">Nombre</th>
+                            <th scope="col">Horas Semanales</th>
+                            <th scope="col">Horas Totales</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for m in usuario.UsuarioMateria %}
+                            <tr>
+                                <td>{{ m.materia.codigo }}</td>
+                                <td>{{ m.materia.curso }}</td>
+                                <td>{{ m.materia.nombre }}</td>
+                                <td>{{ m.materia.horasSemanales }}</td>
+                                <td>{{ m.materia.horasTotales }}</td>
+                                <td>
+                                    <a class="btn btn-info" href="#">Mas Info</a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="tab_1_4">
+                <div class="row">
+                    <div class="portlet-body flip-scroll">
+                        <table class="table table-bordered table-striped table-condensed flip-content">
+                            <thead class="thead-dark flip-content">
+                        <tr>
+                            <th scope="col">Código</th>
+                            <th scope="col">Nombre</th>
+                            <th scope="col">Horas Semanales</th>
+                            <th scope="col">Horas Totales</th>
+                            <th scope="col">Acciones</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for m in usuario.exencion %}
+                            <tr>
+                                <td>{{ m.codigo }}</td>
+                                <td>{{ m.nombre }}</td>
+                                <td>{{ m.horasSemanales }}</td>
+                                <td>{{ m.horasTotales }}</td>
+                                <td>
+                                    <a class="btn btn-info btn-xs" href="{{ path('profileExencion', {'id': m.id}) }}">
+                                        Mas Info
+                                    </a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+{% block javascripts %}
+
+{% endblock %}
+{% block stylesheets %}
+    <style>
+        .del{
+            text-decoration: none;
+            color: #D91E18;
+        }
+        .del:hover{
+            color: #D91E18;
+        }
+    </style>
+{% endblock %}

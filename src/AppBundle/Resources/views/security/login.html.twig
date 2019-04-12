@@ -1,0 +1,41 @@
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>I.E.S. Oretania</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <link rel="stylesheet" href="{{ asset('assets/global/plugins/bootstrap/css/bootstrap.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('assets/global/plugins/toastr/toastr.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('assets/login/css/login.css') }}">
+        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+    <body>
+    <div class="container">
+
+        <form class="form-signin" action="{{ path('login_check') }}" method="post">
+            <div id="logo"><img src="{{ asset('assets/global/img/logo.png') }}" alt="Logo"></div>
+
+            <hr>
+            <div class="form-group">
+                <label for="usuario">Usuario</label>
+                <input type="text" class="form-control" id="usuario" name="_username" required="required" placeholder="Enter email">
+            </div>
+            <div class="form-group">
+                <label for="password">Contraseña</label>
+                <input type="password" class="form-control" id="password" name="_password" required="required" placeholder="Contraseña">
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">Iniciar Sesión</button>
+        </form>
+    </div>
+        <script src="{{ asset('assets/global/plugins/jquery.min.js') }}"></script>
+        <script src="{{ asset('assets/global/plugins/bootstrap/js/bootstrap.min.js') }}"></script>
+        <script src="{{ asset('assets/global/plugins/toastr/toastr.min.js') }}"></script>
+        <script src="{{ asset('assets/global/scripts/notification.js') }}"></script>
+        <script src="https://use.fontawesome.com/e6820f0e80.js"></script>
+        {% for flashMessage in app.session.flashbag.get('notice') %}
+            <script type="text/javascript">
+                notificacion("{{ flashMessage }}");
+            </script>
+        {% endfor %}
+    </body>
+</html>

@@ -1,0 +1,42 @@
+{% extends '@App/template.html.twig' %}
+
+
+{% block titulo %}
+
+{% endblock %}
+
+{% block body %}
+    <section>
+        {{ form_start(form) }}
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group form-md-line-input">
+                    {{ form_row(form.prioridad) }}
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <button type="submit">Enviar</button>
+            </div>
+        </div>
+        {{ form_end(form) }}
+    </section>
+{% endblock %}
+{% block javascripts %}
+{% endblock %}
+{% block stylesheets %}
+    <style>
+        section{
+            margin: auto;
+            margin-top: 2em;
+            width: 80%;
+        }
+        @media
+        only screen and (max-width: 992px){
+            section{
+                width: 100%;
+            }
+        }
+    </style>
+{% endblock %}

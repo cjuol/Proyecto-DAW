@@ -1,0 +1,71 @@
+{% extends '@App/template.html.twig' %}
+
+
+{% block titulo %}{% endblock %}
+
+{% block body %}
+
+    <div class="row">
+        <div class="col-md-12">
+            {{ form_start(form) }}
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group form-md-line-input">
+                        {{ form_row(form.nombre) }}
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group form-md-line-input">
+                        {{ form_row(form.codigo) }}
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group form-md-line-input">
+                        {{ form_row(form.curso) }}
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group form-md-line-input">
+                        {{ form_row(form.departamento) }}
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group form-md-line-input">
+                        {{ form_row(form.horasTotales) }}
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group form-md-line-input">
+                        {{ form_row(form.horasSemanales) }}
+                    </div>
+                </div>
+                <div class="col-md-4">
+
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <input type="submit" class="btn btn-success">
+                </div>
+            </div>
+            {{ form_end(form) }}
+
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block stylesheets %}
+    <style>
+        main{
+            width: 30%;
+            margin: auto;
+            margin-top: 2em;
+        }
+
+    </style>
+{% endblock %}

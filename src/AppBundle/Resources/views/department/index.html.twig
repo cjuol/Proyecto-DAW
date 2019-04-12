@@ -1,0 +1,100 @@
+{% extends '@App/template.html.twig' %}
+
+
+{% block titulo %}
+
+{% endblock %}
+
+{% block body %}
+    <section>
+
+        {% if is_granted('ROLE_ADMIN') %}
+            <div class="row separado">
+                <a class="btn btn-info " href="{{ path('newDepartment') }}">Nuevo Departamento</a>
+            </div>
+        {% endif %}
+        <div class="portlet-body">
+            <div class="panel-group accordion" id="accordion">
+                <div class="panel panel-default">
+                    {% for d in departamentos %}
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a class="accordion-toggle accordion-toggle-styled" data-toggle="collapse"
+                                   data-parent="#accordion" href="#dp_{{ loop.index }}">
+                                    {{ d }}
+                                </a>
+                            </h4>
+                        </div>
+                        <div id="dp_{{ loop.index }}" class="panel-collapse collapse">
+                            <span>
+                                Administrador:
+                                {% if d.findAdmin %}
+                                    {{ d.findAdmin }}
+                                {% else %}
+                                    Sin asignar
+                                {% endif %}
+                            </span>
+                            <div class="portlet-body flip-scroll">
+                                <table class="table table-bordered table-striped table-condensed flip-content">
+                                    <thead class="thead-dark flip-content">
+                                    <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col">Nombre</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for u in d.usuario %}
+                                        <tr>
+                                            <td>{{ u.prioridad }}</td>
+                                            <td>{{ u.nombre }} {{ u.apellidos }}</td>
+                                        </tr>
+                                    {% else %}
+                                        <tr>
+                                            <td>
+                                                -
+                                            </td>
+                                            <td>
+                                                No hay ningun usuario asignado
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                            <a class="btn btn-info" href="{{ path('profileDepartment', {'id': d.id}) }}">Mas Info</a>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+
+    </section>
+{% endblock %}
+{% block stylesheets %}
+    <style>
+        section{
+            margin: auto;
+            margin-top: 2em;
+            width: 80%;
+        }
+
+        .no-decoration {
+            color: #000000;
+        }
+
+        .no-decoration:hover {
+            text-decoration: none;
+        }
+
+        .separado {
+            margin-bottom: 1em;
+        }
+        @media
+        only screen and (max-width: 992px){
+            section{
+                width: 100%;
+            }
+        }
+    </style>
+{% endblock %}

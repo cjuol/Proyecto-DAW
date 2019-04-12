@@ -1,0 +1,72 @@
+{% extends '@App/template.html.twig' %}
+
+
+{% block titulo %}
+
+{% endblock %}
+
+{% block body %}
+    <section class="tabbable-line">
+        <ul class="nav nav-tabs">
+            <li class="active">
+                <a href="{{ path('listUsers') }}"> Usuarios</a>
+            </li>
+            {% if is_granted('ROLE_DEPARTMENT') %}
+                <li>
+                    <a href="{{ path('newUser') }}">Nuevo Usuario</a>
+                </li>
+            {% endif %}
+        </ul>
+        <div class="portlet-body flip-scroll">
+            <table class="table table-bordered table-striped table-condensed flip-content">
+                <thead class="thead-dark flip-content">
+
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Departamento</th>
+                    <th scope="col">Exenciones</th>
+                    <th scope="col">Materias</th>
+                    <th scope="col">Total</th>
+                    <th scope="col">Acciones</th>
+
+                </tr>
+                </thead>
+                <tbody>
+                {% for u in usuarios %}
+                    <tr>
+                        <td>{{ u.prioridad }}</td>
+                        <td>{{ u.nombre }} {{ u.apellidos }}</td>
+                        <td>{{ u.correo }}</td>
+                        <td>{{ u.departamento }}</td>
+                        <td>{{ porcentajesExenciones[loop.index0] }}</td>
+                        <td>{{ porcentajesMaterias[loop.index0] }}</td>
+                        <td>{{ porcentajesMaterias[loop.index0] + porcentajesExenciones[loop.index0]}}</td>
+                        <td>
+                            <a class="btn btn-info btn-xs" href="{{ path('profileUser', {'id': u.id}) }}">
+                                Ver Perfil
+                            </a>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </section>
+{% endblock %}
+{% block stylesheets %}
+    <style>
+        section{
+            margin: auto;
+            margin-top: 2em;
+            width: 80%;
+        }
+        @media
+        only screen and (max-width: 992px){
+            section{
+                width: 100%;
+            }
+        }
+    </style>
+{% endblock %}

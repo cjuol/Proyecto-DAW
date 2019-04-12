@@ -1,0 +1,287 @@
+{% extends '@App/template.html.twig' %}
+{% block titulo %}{% endblock %}
+{% block body %}
+    <div>
+        <h2>Porcentaje de horas seleccionadas. {{ e + m }}%</h2>
+        <small>Porcentaje calculado respecto a horas minimas en la configuración.</small>
+        <span style="display: flex; flex-wrap: nowrap">
+            <span style="flex: 1 1 50%">Horas Minimas: {{ config.horasMin }}</span>
+            <span style="flex: 1 1 50%">Horas Maximas: {{ config.horasMax }}</span>
+        </span>
+        <div class="progress">
+           {% if (e + m) >= 100 %}
+             {% if e > m %}
+                 <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: {{ 100 - m }}%;">
+                     Exenciones ({{ e }}%)
+                 </div>
+                 <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: {{ m }}%;">
+                     Materias ({{ m }}%)
+                 </div>
+                 {% elseif m >e %}
+                     <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: {{ e }}%;">
+                         Exenciones ({{ e }}%)
+                     </div>
+                     <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: {{ 100 - e }}%;">
+                         Materias ({{ m }}%)
+                     </div>
+                 {% else %}
+                 <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 50%;">
+                     Exenciones ({{ e }}%)
+                 </div>
+                 <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 50%;">
+                     Materias ({{ m }}%)
+                 </div>
+             {% endif %}
+               {% else %}
+                   <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: {{ e }}%;">
+                       Exenciones ({{ e }}%)
+                   </div>
+                   <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: {{ m }}%;">
+                       Materias ({{ m }}%)
+                   </div>
+           {% endif %}
+        </div>
+    </div>
+    <div class="asignados">
+        <div class="exenciones">
+            <h4>Exenciones</h4>
+            {% if app.user.exencion.count >0 %}
+                <div class="portlet-body flip-scroll">
+                    <table class="table table-bordered table-striped table-condensed flip-content">
+                        <thead class="thead-dark flip-content">
+                    <tr>
+                        <th scope="col">Nombre</th>
+                        <th scope="col">Horas Semanales</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for m in app.user.exencion %}
+                        <tr>
+                            <td>{{ m.nombre }}</td>
+                            <td>{{ m.horasSemanales }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+                </div>
+            {% else %}
+                No dispone de ninguna exencion asignada
+            {% endif %}
+        </div>
+        <div class="materias">
+            <h4>Materias</h4>
+            {% if app.user.usuarioMateria.count >0 %}
+                <div class="portlet-body flip-scroll">
+                    <table class="table table-bordered table-striped table-condensed flip-content">
+                        <thead class="thead-dark flip-content">
+                    <tr>
+                        <th scope="col">Prioridad</th>
+                        <th scope="col">Curso</th>
+                        <th scope="col">Nombre</th>
+                        <th scope="col">Horas Semanales</th>
+                        <th scope="col">Acciones</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for m in app.user.usuarioMateria %}
+                        <tr>
+                            <td>{{ m.turno }}</td>
+                            <td>{{ m.materia.curso }}</td>
+                            <td>{{ m.materia.nombre }}</td>
+                            <td>{{ m.materia.horasSemanales }}</td>
+                            <td>
+                                <a href="{{ path('prioridadUsuario_materia', {'materia': m.materia.id, 'usuario': app.user.id}) }}">
+                                    Cambiar
+                                </a>
+                            </td>
+                        </tr>
+
+                    {% endfor %}
+                    </tbody>
+                </table>
+                </div>
+            {% else %}
+                No dispone de ninguna materia asignada
+            {% endif %}
+        </div>
+    </div>
+    <hr>
+    <div class="portlet-body">
+        <div class="panel-group accordion" id="accordion">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a class="accordion-toggle accordion-toggle-styled" data-toggle="collapse"
+                           data-parent="#accordion" href="#dp_1">
+                            Exenciones ({{ exenciones.count }})
+                        </a>
+                    </h4>
+                </div>
+                <div id="dp_1" class="panel-collapse collapse">
+                    <div class="portlet-body flip-scroll">
+                        <table class="table table-bordered table-striped table-condensed flip-content">
+                            <thead class="thead-dark flip-content">
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Nombre</th>
+                                <th scope="col">Horas Semanales</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                                {% for e in exenciones %}
+
+                                    <tr>
+                                        <td>
+                                            <a class="btn btn-info btn-xs"
+                                               href="{{ path('selectExencion', {'exencion': e.id , 'usuario': app.user.id}) }}">
+                                                Seleccionar
+                                            </a>
+                                        </td>
+                                        <td>
+                                            {{ e }}
+                                        </td>
+                                        <td>
+                                            {{ e.horasSemanales }}
+                                        </td>
+                                    </tr>
+                                {% else %}
+                                    <tr>
+                                        <td colspan="3">No hay ninguna exención que pueda seleccionar</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a class="accordion-toggle accordion-toggle-styled" data-toggle="collapse"
+                           data-parent="#accordion" href="#dp_2">
+                            Materias - Sin Asignar ({{ materias.count }})
+                        </a>
+                    </h4>
+                </div>
+                <div id="dp_2" class="panel-collapse collapse">
+                    <div class="portlet-body flip-scroll">
+                        <table class="table table-bordered table-striped table-condensed flip-content">
+                            <thead class="thead-dark flip-content">
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Curso</th>
+                                <th scope="col">Código</th>
+                                <th scope="col">Nombre</th>
+                                <th scope="col">Horas Semanales</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for m in materias %}
+                                <tr>
+                                    <td>
+                                        <a class="btn btn-info btn-xs"
+                                           href="{{ path('selectMateria', {'materia': m.id , 'usuario': app.user.id}) }}">
+                                            Seleccionar
+                                        </a>
+                                    </td>
+                                    <td>
+                                        {{ m.curso }}
+                                    </td>
+                                    <td>
+                                        {{ m.codigo }}
+                                    </td>
+                                    <td>
+                                        {{ m }}
+                                    </td>
+                                    <td>
+                                        {{ m.horasSemanales }}
+                                    </td>
+                                </tr>
+                            {% else %}
+                                <tr>
+                                    <td colspan="3">No hay ninguna materia que pueda seleccionar</td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a class="accordion-toggle accordion-toggle-styled" data-toggle="collapse"
+                           data-parent="#accordion" href="#dp_3">
+                            Materias - Asignadas ({{ usuario_materia.count }})
+                        </a>
+                    </h4>
+                </div>
+                <div id="dp_3" class="panel-collapse collapse">
+                    <div class="portlet-body flip-scroll">
+                        <table class="table table-bordered table-striped table-condensed flip-content">
+                            <thead class="thead-dark flip-content">
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Nombre</th>
+                                <th scope="col">Horas Semanales</th>
+                                <th scope="col">Usuario</th>
+                                <th scope="col">Prioridad</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for m in usuario_materia %}
+                                <tr>
+                                    <td>
+                                        <a class="btn btn-info btn-xs"
+                                           href="{{ path('selectUsuario_Materia',{'materia': m.materia.id, 'usuario': m.usuario.id}) }}">
+                                            Seleccionar
+                                        </a>
+                                    </td>
+                                    <td>
+                                        {{ m.materia }}
+                                    </td>
+                                    <td>
+                                        {{ m.materia.horasSemanales }}
+                                    </td>
+                                    <td>
+                                        {{ m.usuario }}
+                                    </td>
+                                    <td>
+                                        {{ m.turno }}
+                                    </td>
+                                </tr>
+                            {% else %}
+                                <tr>
+                                    <td colspan="4">
+                                        No puede seleccionar ninguna materia de otros usuarios
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block stylesheets %}
+    <style>
+        .asignados {
+
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .materias {
+            text-align: center;
+            box-sizing: border-box;
+            padding: 1em;
+            flex: 1 1 50%;
+        }
+
+        .exenciones {
+            text-align: center;
+            box-sizing: border-box;
+            padding: 1em;
+            flex: 1 1 50%;
+        }
+    </style>
+{% endblock %}
